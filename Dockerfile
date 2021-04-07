@@ -1,9 +1,13 @@
-FROM golang:onbuild
+FROM golang:1.16.3 as builder
+
 LABEL maintainer="Carlos Moyses <carlosmoyses@gmail.com>"
-WORKDIR /go/src
-ENV PATH="/go/bin:${PATH}"
+
+WORKDIR $GOPATH/go/src
+
 COPY . .
-RUN apt-get update && \
-    apt-get install build-essential librdkafka-dev golang -y
-RUN go build -o main .
-CMD ["./main"]
+
+RUN go build main.go
+
+FROM scratch
+COPY --from=builder . .
+CMD ./main
