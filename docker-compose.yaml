@@ -1,8 +1,9 @@
 version: "3"
 
 services:
+  gowebserver:
     build: .
-    container_name: desafio1
+    container_name: imersaofsfc2_desafio1
     volumes:
       - .:/go/src/
     extra_hosts:
