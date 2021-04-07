@@ -1,13 +1,12 @@
-FROM golang:1.16.3 as builder
-
+FROM golang:1.16 as builder
 LABEL maintainer="Carlos Moyses <carlosmoyses@gmail.com>"
-
-WORKDIR $GOPATH/go/src
-
+WORKDIR /go/src
+ENV PATH="/go/bin:${PATH}"
 COPY . .
-
-RUN go build main.go
+RUN GOOS=linux GOARCH=386 go build -ldflags="-s -w" main.go
 
 FROM scratch
-COPY --from=builder . .
-CMD ./main
+WORKDIR /app
+COPY . .
+COPY --from=builder /go/src .
+CMD ["./main"]
