@@ -5,7 +5,5 @@ ENV PATH="/go/bin:${PATH}"
 COPY . .
 RUN apt-get update && \
     apt-get install build-essential librdkafka-dev golang -y
-
 RUN go build -o main .
-
 CMD ["./main"]
